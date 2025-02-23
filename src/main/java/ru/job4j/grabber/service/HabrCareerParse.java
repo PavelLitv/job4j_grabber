@@ -42,9 +42,23 @@ public class HabrCareerParse implements Parse {
                     post.setTime(parserDate.parse(date)
                             .toInstant(ZoneOffset.UTC)
                             .toEpochMilli());
+                    post.setDescription(retrieveDescription(link));
                     result.add(post);
                 });
             }
+        } catch (IOException e) {
+            LOG.error("When load page", e);
+        }
+        return result;
+    }
+
+    private String retrieveDescription(String link) {
+        String result = "";
+        try {
+            var connection = Jsoup.connect(link);
+            var document = connection.get();
+            var description = document.select(".faded-content__container");
+            result = description.text();
         } catch (IOException e) {
             LOG.error("When load page", e);
         }
