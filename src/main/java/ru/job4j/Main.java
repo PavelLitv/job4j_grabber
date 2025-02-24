@@ -1,9 +1,6 @@
 package ru.job4j;
 
-import ru.job4j.grabber.service.Config;
-import ru.job4j.grabber.service.HabrCareerParse;
-import ru.job4j.grabber.service.SchedulerManager;
-import ru.job4j.grabber.service.SuperJobGrab;
+import ru.job4j.grabber.service.*;
 import ru.job4j.grabber.stores.JdbcStore;
 
 public class Main {
@@ -20,5 +17,6 @@ public class Main {
                 store,
                 parse
         );
+        new Web(store).start(Integer.parseInt(config.get("server.port")));
     }
 }
